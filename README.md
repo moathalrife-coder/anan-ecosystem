@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# منظومة عنان لإدارة المشاريع
 
-## Getting Started
+منظومة ويب لإدارة دورة حياة مشاريع عنان: من المقترح والاعتماد، إلى الفريق واللجان والمهام والمالية والمشاركين، حتى الإغلاق والأرشيف.
 
-First, run the development server:
+**النسخة الحالية:** v0.1.0 — المرحلة 0 (الأساس). انظر [سجل التغييرات](CHANGELOG.md).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## التقنية
+
+- Next.js 16 (App Router) + React 19 + TypeScript + Tailwind 4، عربي RTL أولاً.
+- Supabase: PostgreSQL + Auth، والصلاحيات مفروضة بـ Row Level Security.
+- أيقونات Phosphor (duotone)، وخطا Alexandria و IBM Plex Sans Arabic.
+
+## البنية
+
+```
+supabase/migrations/   مخطط القاعدة والأدوار وRLS وسجل التدقيق
+supabase/tests/        اختبارات الصلاحيات (كل دور يحاول ما ليس له)
+src/app/(auth)/        الدخول، والدعوة، واستعادة كلمة المرور
+src/app/(app)/         الهيكل وكل صفحات القائمة ومساحة المشروع
+src/components/shell/  الهيدر، وشريط الأيقونات، وتبويبات المشروع، وبلاطة العنوان
+src/lib/roles.ts       أسماء الأدوار والقوائم (مرآة للواجهة؛ الصلاحية الحقيقية في القاعدة)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## التشغيل محلياً
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. `npm install`
+2. انسخ `.env.example` إلى `.env.local` واملأ مفاتيح مشروع Supabase.
+3. طبّق الترحيلات على المشروع: `supabase db push` (أو الصق ملفات `supabase/migrations` في محرر SQL بالترتيب).
+4. في لوحة Supabase:
+   - **Authentication → Sign In / Providers:** أوقف التسجيل الذاتي (Allow new users to sign up).
+   - **Authentication → URL Configuration:** أضف `https://<النطاق>/auth/callback` و `https://<النطاق>/auth/confirm`.
+   - **Authentication → Email Templates → Reset Password:** استخدم القالب في `supabase/templates/recovery.html`.
+5. أنشئ أول حساب مدير مشاريع: `npm run bootstrap:admin -- "الاسم" email@example.com 05xxxxxxxx`
+6. `npm run dev` وافتح http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## الفحوص
 
-## Learn More
+```
+npm run lint
+npm run typecheck
+npm run test:db     # اختبارات RLS على PostgreSQL مؤقت (لا يحتاج Docker)
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## مبادئ ثابتة
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- كل جدول تشغيلي يحمل `project_id` و `section`، وكل تغيير حساس يُكتب في `audit_log`.
+- الواجهة لا تقرر الصلاحية: أي إخفاء في الواجهة يقابله منع في القاعدة، ومعه اختبار في `supabase/tests`.
+- لا نص إنجليزي ظاهر في الواجهة، ولا أزرار ميتة.
+- كل مرحلة تُسلَّم وتُعتمد قبل بدء التي بعدها (ترتيب البناء في ملف التسليم §8).

@@ -55,9 +55,8 @@ export function LoginForm({ notice }: { notice?: string }) {
           inputMode="email"
           autoComplete="username"
           required
-          dir="ltr"
           placeholder="name@example.com أو 05xxxxxxxx"
-          className={`${inputClass} text-right`}
+          className={inputClass}
         />
       </Field>
       <Field label="كلمة المرور">
