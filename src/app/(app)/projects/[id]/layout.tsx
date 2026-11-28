@@ -10,7 +10,7 @@ import { Forbidden } from "@/components/pages/Forbidden";
 export default async function ProjectLayout({ children, params }: LayoutProps<"/projects/[id]">) {
   const { id } = await params;
   const user = await getCurrentUser();
-  if (!canSeeNav(user.activeRole, "projects")) return <Forbidden title="المشاريع" />;
+  if (!canSeeNav(user.activeRole, "projects", user.grants)) return <Forbidden title="المشاريع" />;
   // RLS: إن لم يكن المشروع ضمن صلاحياته فلن يُرجَع أصلاً
   const project = await getProject(id);
   if (!project) notFound();

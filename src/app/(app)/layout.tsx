@@ -6,7 +6,7 @@ import { navFor } from "@/lib/roles";
 
 export default async function AppLayout({ children }: LayoutProps<"/">) {
   const user = await getCurrentUser();
-  const nav = navFor(user.activeRole);
+  const nav = navFor(user.activeRole, user.grants);
   return (
     <div className="min-h-dvh p-3 box-border">
       <ImpersonationBanner user={user} />

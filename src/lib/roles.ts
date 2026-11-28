@@ -86,7 +86,8 @@ export type IconName =
   | "book" | "id-card" | "settings" | "chart" | "flag" | "checklist" | "chat" | "user" | "success"
   | "coins" | "camera" | "clock" | "archive" | "bell" | "menu" | "search" | "chevron-down" | "warning"
   | "info" | "lock" | "view" | "hide" | "back" | "forward" | "close" | "logout" | "export" | "shield"
-  | "mail" | "phone" | "check";
+  | "mail" | "phone" | "check" | "plus" | "trash" | "up" | "down" | "copy" | "whatsapp" | "edit"
+  | "link" | "send" | "block" | "flight" | "star";
 
 export type NavKey =
   | "home" | "projects" | "tasks" | "calendar" | "participants" | "finance"
@@ -119,13 +120,19 @@ export const NAV: readonly NavItem[] = [
   { key: "settings", label: "الإدارة والإعدادات", icon: "settings", href: "/settings", phase: 1, roles: ["top_management", "project_manager"] },
 ];
 
-export function navFor(role: Role | null): NavItem[] {
+export function navFor(role: Role | null, grants: readonly GrantKey[] = []): NavItem[] {
   if (!role) return NAV.filter((n) => n.key === "home");
-  return NAV.filter((n) => n.roles === "all" || n.roles.includes(role));
+  return NAV.filter(
+    (n) =>
+      n.roles === "all" ||
+      n.roles.includes(role) ||
+      // من مُنح «تعديل القوالب» يصل لأنواع المشاريع والقوالب في الإعدادات
+      (n.key === "settings" && role !== "design_vendor" && grants.includes("edit_templates")),
+  );
 }
 
-export function canSeeNav(role: Role | null, key: NavKey) {
-  return navFor(role).some((n) => n.key === key);
+export function canSeeNav(role: Role | null, key: NavKey, grants: readonly GrantKey[] = []) {
+  return navFor(role, grants).some((n) => n.key === key);
 }
 
 // ------------------------------------------------------------------ مساحة المشروع

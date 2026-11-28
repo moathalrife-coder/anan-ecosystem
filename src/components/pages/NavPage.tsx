@@ -10,7 +10,7 @@ import { Forbidden } from "./Forbidden";
 export async function NavPage({ navKey }: { navKey: NavKey }) {
   const item = NAV.find((n) => n.key === navKey)!;
   const user = await getCurrentUser();
-  if (!canSeeNav(user.activeRole, navKey)) return <Forbidden title={item.label} />;
+  if (!canSeeNav(user.activeRole, navKey, user.grants)) return <Forbidden title={item.label} />;
   return (
     <PageBody>
       <TitleTile title={item.label} />

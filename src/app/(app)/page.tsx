@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: "لوحتي" };
 
 export default async function HomePage() {
   const user = await getCurrentUser();
-  const nav = navFor(user.activeRole).filter((n) => n.key !== "home");
+  const nav = navFor(user.activeRole, user.grants).filter((n) => n.key !== "home");
   return (
     <PageBody>
       <TitleTile

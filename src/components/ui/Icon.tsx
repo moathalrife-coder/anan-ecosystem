@@ -3,6 +3,8 @@ import {
   IdentificationCard, GearSix, ChartBar, Flag, ListChecks, ChatsCircle, User, CheckCircle, Coins,
   Camera, ClockCounterClockwise, Archive, Bell, List, MagnifyingGlass, CaretDown, Warning, Info,
   Lock, Eye, EyeSlash, ArrowRight, ArrowLeft, X, SignOut, Export, ShieldCheck, EnvelopeSimple, Phone, Check,
+  Plus, Trash, ArrowUp, ArrowDown, Copy, WhatsappLogo, PencilSimple, Link as LinkIcon, PaperPlaneTilt, Prohibit,
+  Airplane, Star,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import type { IconName } from "@/lib/roles";
@@ -16,6 +18,8 @@ const MAP: Record<IconName, PhosphorIcon> = {
   bell: Bell, menu: List, search: MagnifyingGlass, "chevron-down": CaretDown, warning: Warning,
   info: Info, lock: Lock, view: Eye, hide: EyeSlash, back: ArrowRight, forward: ArrowLeft, close: X,
   logout: SignOut, export: Export, shield: ShieldCheck, mail: EnvelopeSimple, phone: Phone, check: Check,
+  plus: Plus, trash: Trash, up: ArrowUp, down: ArrowDown, copy: Copy, whatsapp: WhatsappLogo, edit: PencilSimple,
+  link: LinkIcon, send: PaperPlaneTilt, block: Prohibit, flight: Airplane, star: Star,
 };
 
 export function Icon({

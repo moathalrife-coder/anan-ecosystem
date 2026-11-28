@@ -8,7 +8,7 @@ end $$;
 create schema if not exists auth;
 grant usage on schema auth to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
-create table if not exists auth.users (id uuid primary key default gen_random_uuid(), email text, phone text);
+create table if not exists auth.users (id uuid primary key default gen_random_uuid(), email text, phone text, last_sign_in_at timestamptz);
 create or replace function auth.uid() returns uuid language sql stable as $$
   select nullif(coalesce(current_setting('request.jwt.claim.sub', true),
                          (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub')), '')::uuid
