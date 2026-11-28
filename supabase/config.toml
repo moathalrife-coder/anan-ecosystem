@@ -1,0 +1,21 @@
+# إعدادات Supabase المحلية (supabase start). على المشروع السحابي اضبط نفس القيم من اللوحة:
+# Authentication → Sign In / Providers: أوقف "Allow new users to sign up".
+project_id = "anan-ecosystem"
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback", "http://localhost:3000/auth/confirm"]
+# لا تسجيل ذاتي: الحسابات بالدعوات فقط
+enable_signup = false
+minimum_password_length = 8
+password_requirements = "letters_digits"
+
+[auth.email]
+enable_signup = false
+enable_confirmations = false
+# مدة رابط استعادة كلمة المرور: ساعة
+otp_expiry = 3600
+
+[auth.email.template.recovery]
+subject = "استعادة كلمة المرور · منظومة عنان"
+content_path = "./supabase/templates/recovery.html"
