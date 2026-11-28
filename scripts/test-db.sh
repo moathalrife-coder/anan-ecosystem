@@ -19,4 +19,6 @@ fi
 PSQL=(psql -h "$TMP" -p "$PORT" -U postgres -d postgres -v ON_ERROR_STOP=1 -q)
 "${PSQL[@]}" -f "$ROOT/supabase/tests/00_supabase_stub.sql"
 for f in "$ROOT"/supabase/migrations/*.sql; do "${PSQL[@]}" -f "$f"; done
-"${PSQL[@]}" -f "$ROOT/supabase/tests/rls_foundation.test.sql"
+"${PSQL[@]}" -f "$ROOT/supabase/tests/01_helpers.sql"
+for f in "$ROOT"/supabase/tests/*.test.sql; do "${PSQL[@]}" -f "$f"; done
+"${PSQL[@]}" -f "$ROOT/supabase/tests/99_summary.sql"

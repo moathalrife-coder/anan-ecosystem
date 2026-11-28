@@ -16,7 +16,7 @@ export const metadata: Metadata = { title: "المشاريع" };
 
 export default async function ProjectsPage() {
   const user = await getCurrentUser();
-  if (!canSeeNav(user.activeRole, "projects")) return <Forbidden title="المشاريع" />;
+  if (!canSeeNav(user.activeRole, "projects", user.grants)) return <Forbidden title="المشاريع" />;
   const projects = await listProjects();
 
   return (
